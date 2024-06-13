@@ -20,3 +20,18 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 	Transition transition(curr_s, read_s, write_s, m, next_s);
 	transitionTable.push_back(transition);
 }
+
+void Table::print(std::ostream& os) const {
+	for (int i = 0; i < transitionTable.size(); i++) {
+		char moveState = '0';//error ป๓ลย
+		if (transitionTable[i].getMove() == Move::NONE) moveState = '*';
+		if (transitionTable[i].getMove() == Move::LEFT) moveState = '1';
+		if (transitionTable[i].getMove() == Move::RIGHT) moveState = 'r';
+
+		os << "(" << transitionTable[i].getCurrState() << ", ";
+		os << transitionTable[i].getReadSymbol() << ", ";
+		os << transitionTable[i].getWriteSymbol() << ", ";
+		os << moveState << ", ";
+		os << transitionTable[i].getNextState() << ")\n";
+	}
+}

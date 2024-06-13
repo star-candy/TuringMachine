@@ -38,7 +38,7 @@
 	+ [0] 테이블에 규칙을 추가하는 기능
 
 - print 
-	+ [] 형식에 맞춰 모든 table 출력
+	+ [0] 형식에 맞춰 모든 table 출력
 	+ [] transition print에 반복 추가하면 될 것으로 보임
 
 - clear
