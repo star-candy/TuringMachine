@@ -35,7 +35,7 @@
 	## Table
 
 - addTransition
-	+ [] 테이블에 규칙을 추가하는 기능
+	+ [0] 테이블에 규칙을 추가하는 기능
 
 - print 
 	+ [] 형식에 맞춰 모든 table 출력
@@ -61,8 +61,9 @@
 
 
 - private
-	+ [] 테이블은 이차원 벡터로 x행과 5열로 구현
-
+	+ [0] 규칙의 type이 각자 다름, 하나의 vector element로 구성할 수 있는가?
+	+ [0] 규칙입력 class인 transition 자체를 type으로 하는 vector transitionTable 구성
+	
 
 	---------------------------------------------------
 

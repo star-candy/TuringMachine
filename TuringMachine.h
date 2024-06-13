@@ -54,7 +54,7 @@ namespace Turing
 		bool load(const std::string& path);
 
 	private:
-		//추가
+		std::vector<Transition> transitionTable; //transition 객체를 vector 인자로 받는다
 	};
 
 	class Tape

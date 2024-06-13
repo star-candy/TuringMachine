@@ -16,3 +16,7 @@ void Transition::print(std::ostream& os) const
 	os << next_state;
 }
 
+void Table::addTransition(const std::string& curr_s, char read_s, char write_s, Move m, const std::string& next_s) {
+	Transition transition(curr_s, read_s, write_s, m, next_s);
+	transitionTable.push_back(transition);
+}
