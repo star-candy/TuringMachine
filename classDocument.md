@@ -42,7 +42,7 @@
 	+ [] transition print에 반복 추가하면 될 것으로 보임
 
 - clear
-	+ [] 테이블 내 모든 규칙 제거
+	+ [0] 테이블 내 모든 규칙 제거
 	
 - findTransition
 	+ [] rule에 맞는 table 값이 있다면 transition print 통해 출력

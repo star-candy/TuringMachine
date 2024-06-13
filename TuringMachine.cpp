@@ -23,7 +23,7 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 
 void Table::print(std::ostream& os) const {
 	for (int i = 0; i < transitionTable.size(); i++) {
-		char moveState = '0';//error 상태
+		char moveState = '0';//0출력시 비정상 상태임
 		if (transitionTable[i].getMove() == Move::NONE) moveState = '*';
 		if (transitionTable[i].getMove() == Move::LEFT) moveState = '1';
 		if (transitionTable[i].getMove() == Move::RIGHT) moveState = 'r';
@@ -34,4 +34,8 @@ void Table::print(std::ostream& os) const {
 		os << moveState << ", ";
 		os << transitionTable[i].getNextState() << ")\n";
 	}
+}
+
+void Table::clear() {
+	transitionTable.clear();
 }
