@@ -22,17 +22,17 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 }
 
 void Table::print(std::ostream& os) const {//괄호는 출력 요구사항이 아닌 듯 하다.
-	for (int i = 0; i < transitionTable.size(); i++) {
+	for (const Transition& transition : transitionTable) { //const 함수에서 참조시에는 const 태그 필요한 듯
 		char moveState = '0';//0출력시 비정상 상태임
-		if (transitionTable[i].getMove() == Move::NONE) moveState = '*';
-		if (transitionTable[i].getMove() == Move::LEFT) moveState = '1';
-		if (transitionTable[i].getMove() == Move::RIGHT) moveState = 'r';
+		if (transition.getMove() == Move::NONE) moveState = '*';
+		if (transition.getMove() == Move::LEFT) moveState = 'l';
+		if (transition.getMove() == Move::RIGHT) moveState = 'r';
 
-		os << transitionTable[i].getCurrState() << ", ";
-		os << transitionTable[i].getReadSymbol() << ", ";
-		os << transitionTable[i].getWriteSymbol() << ", ";
+		os << transition.getCurrState() << ", ";
+		os << transition.getReadSymbol() << ", ";
+		os << transition.getWriteSymbol() << ", ";
 		os << moveState << ", ";
-		os << transitionTable[i].getNextState() << "\n";
+		os << transition.getNextState() << "\n";
 	}
 }
 
@@ -41,37 +41,58 @@ void Table::clear() {
 }
 
 Transition* Table::findTransition(const std::string& curr_s, char read_s) {
-	//table에 요구사항 정확 발견시 출력
+	//table에 요구사항 정확 발견시 반환
+	//와일드 카드 사용시에도 완전 일치하는 부분 출력 가능 (1, 2 요구사항 만족)
 	for (Transition& transition : transitionTable) {
 		if (transition.getCurrState() == curr_s && transition.getReadSymbol() == read_s) {
-			transition.print(std::cout);
+			//transition.print(std::cout);
 			return &transition;
 		}
 	}
-	//정확한 요구사항이 없다면 와일드카드로 인식 해야함
-	//와일드 카드 사용 및 정확한 요구사항 발견 시
-	if (read_s == '*') {
-		for (Transition& transition : transitionTable) {
-			if (transition.getCurrState() == curr_s && transition.getReadSymbol() == '*') {
-				transition.print(std::cout);
-				return &transition;
-			}
-		}
-	}
-	//와일드카드 사용 및 정확한 요구사항 발견 x 시 임의 문자로 해석하고 그 중 첫번째 결과 반환
+	//정확한 요구사항이 없다면 Tape symbol 값을 와일드카드로 인식 해야함
+	//와일드 카드 사용 및 정확한 요구사항 미발견 시
 	if (read_s == '*') {
 		for (Transition& transition : transitionTable) {
 			if (transition.getCurrState() == curr_s) {
-				transition.print(std::cout);
+				//transition.print(std::cout);
+				return &transition;
+			}
+		}
+	}
+	//와일드카드 미사용 입력에 대해 table에 정확한 요구사항 발견 x 시 tape symbol을 와일드 카드로 인식하고 검색
+	if (read_s != '*') {
+		for (Transition& transition : transitionTable) {
+			if (transition.getCurrState() == curr_s && transition.getReadSymbol() == '*') {
+				//transition.print(std::cout);
 				return &transition;
 			}
 		}
 	}
 
-	////와일드 카드 사용 x 정확한 요구사항 발견 못하면 와일드카드로 인식
-	// 첫번째 for문 미실행시 자동으로 와일드카드로 인식, 따라서 정의 필요 없을 듯
-
-	return;
+	Transition* errorValue = nullptr;
+	return errorValue; //못 찾으면 공백 반환
 }
 
+void Table::initialize(const std::string& rule_script) {
+	//transitionTable 초기화, string 통해 규칙 재정의 기능
+	clear();
+	std::vector<std::string>rules = Util::split(rule_script, '\n'); //n 단위로 분할
+	std::string curr_s, next_s;
+	char read_s, write_s, moveChar; 
+
+	for (std::string& rule : rules) {
+		rule = Util::stripComment(rule); //; 이후 문장 제거
+		if (Util::isWhiteLine(rule)) continue; //공백 처리
+
+		std::istringstream ss (rule);
+		ss >> curr_s >> read_s >> write_s >> moveChar >> next_s;
+
+		Move move = Move::NONE;
+		if (moveChar == '*') move = Move::NONE;
+		if (moveChar == 'l') move = Move::LEFT;
+		if (moveChar == 'r') move = Move::RIGHT;
+
+		Table::addTransition(curr_s, read_s, write_s, move, next_s);
+	}
+}
 

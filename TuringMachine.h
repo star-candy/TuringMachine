@@ -1,13 +1,12 @@
 #pragma once
 
-#include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <set>
 #include <cassert>
 #include <iterator>
 #include <fstream>
-
 #include "util.h"
 
 namespace Turing
@@ -44,15 +43,15 @@ namespace Turing
 	class Table
 	{
 	public:
-		Table();
-		~Table();
+		Table() {};
+		~Table() {};
 
 		void addTransition(const std::string& curr_s, char read_s, char write_s, Move move, const std::string& next_s);
 		Transition* findTransition(const std::string& curr_s, char read_s);
 		void clear();
 		void print(std::ostream& os) const;
 		void initialize(const std::string& rule_script);
-		bool load(const std::string& path);
+		bool load(const std::string& path) { return true; };
 
 	private:
 		std::vector<Transition> transitionTable; //transition 객체를 vector 인자로 받는다
