@@ -21,13 +21,16 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 	transitionTable.push_back(transition);
 }
 
-void Table::print(std::ostream& os) const {//괄호는 출력 요구사항이 아닌 듯 하다.
-	for (const Transition& transition : transitionTable) { //const 함수에서 참조시에는 const 태그 필요한 듯
+void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해 단순 for문 사용
+	for (int i = 0; i < transitionTable.size(); i++) { //const 함수에서 참조시에는 const 태그 필요한 듯
+		const Transition& transition = transitionTable[i];
+
 		char moveState = '0';//0출력시 비정상 상태임
 		if (transition.getMove() == Move::NONE) moveState = '*';
 		if (transition.getMove() == Move::LEFT) moveState = 'l';
 		if (transition.getMove() == Move::RIGHT) moveState = 'r';
-
+		
+		os << "[" << i << "]"<< ": "; // 추가 구현 사항
 		os << transition.getCurrState() << ", ";
 		os << transition.getReadSymbol() << ", ";
 		os << transition.getWriteSymbol() << ", ";
