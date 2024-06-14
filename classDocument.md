@@ -46,7 +46,7 @@
 	
 - findTransition
 	+ [0] rule에 맞는 table 값이 있다면 transition print 통해 출력
-	+ [0] 와일드 카드 사용시 임의 문자로 해석하고 여러 테이블 출력 가능하면 최 상단 테이블 출력할 것
+	+ [0] 와일드 카드 사용시 임의 문자로 해석하고 여러 테이블 출력 가능하면 상단 테이블 출력할 것
 	+ [0] 와일드 카드 미사용 입력 시 테이블에 존재하지 않으면 와일드카드로 대응 가능
 
 - initialize
@@ -55,7 +55,7 @@
 	+ [0] util class 활용가능
 
 - load
-	+ [] initialize 기능을 txt 파일 열어서 실행
+	+ [0] initialize 기능을 txt 파일 열어서 실행
 
 
 
@@ -63,6 +63,9 @@
 - private
 	+ [0] 규칙의 type이 각자 다름, 하나의 vector element로 구성할 수 있는가?
 	+ [0] 규칙입력 class인 transition 자체를 type으로 하는 vector transitionTable 구성
+	
+	+ [0] string을 입력받아 변환 후 addTransition을 진행하는 stringToTable 함수
+	+ [0] load에서 addTransition의 반복 사용 필요
 	
 
 	---------------------------------------------------

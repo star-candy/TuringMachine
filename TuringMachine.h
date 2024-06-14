@@ -50,11 +50,13 @@ namespace Turing
 		Transition* findTransition(const std::string& curr_s, char read_s);
 		void clear();
 		void print(std::ostream& os) const;
-		void initialize(const std::string& rule_script);
-		bool load(const std::string& path) { return true; };
+		void initialize(const std::string& rule_script); //clear후 stringToTable 호출
+		bool load(const std::string& path); //파일 열고 한줄씩 stringToTable 호출
 
 	private:
 		std::vector<Transition> transitionTable; //transition 객체를 vector 인자로 받는다
+		void stringToTable(const std::string& rule_script);//initialize는 기존 규칙을 초기화 하며 시작
+		//파일에서 반복적으로 규칙을 입력받기 위해 clear 사용하지 않는 initialize 필요
 	};
 
 	class Tape

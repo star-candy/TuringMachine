@@ -73,18 +73,17 @@ Transition* Table::findTransition(const std::string& curr_s, char read_s) {
 	return errorValue; //못 찾으면 공백 반환
 }
 
-void Table::initialize(const std::string& rule_script) {
-	//transitionTable 초기화, string 통해 규칙 재정의 기능
-	clear();
+
+void Table::stringToTable(const std::string& rule_script) {
 	std::vector<std::string>rules = Util::split(rule_script, '\n'); //n 단위로 분할
 	std::string curr_s, next_s;
-	char read_s, write_s, moveChar; 
+	char read_s, write_s, moveChar;
 
 	for (std::string& rule : rules) {
 		rule = Util::stripComment(rule); //; 이후 문장 제거
 		if (Util::isWhiteLine(rule)) continue; //공백 처리
 
-		std::istringstream ss (rule);
+		std::istringstream ss(rule);
 		ss >> curr_s >> read_s >> write_s >> moveChar >> next_s;
 
 		Move move = Move::NONE;
@@ -92,7 +91,26 @@ void Table::initialize(const std::string& rule_script) {
 		if (moveChar == 'l') move = Move::LEFT;
 		if (moveChar == 'r') move = Move::RIGHT;
 
-		Table::addTransition(curr_s, read_s, write_s, move, next_s);
+		addTransition(curr_s, read_s, write_s, move, next_s);
 	}
 }
 
+void Table::initialize(const std::string& rule_script) {
+	//transitionTable 초기화, string 통해 규칙 재정의 기능
+	clear();
+	stringToTable(rule_script);
+}
+
+bool Table::load(const std::string& path) {
+	std::ifstream f;
+	f.open(path);
+	if (!f.is_open()) return false;
+
+	std::string lineValue;
+	while (std::getline(f, lineValue)) {
+		stringToTable(lineValue);
+	}
+	f.close();//파일 처리가 끝나면 닫는다
+
+	return true;
+}
