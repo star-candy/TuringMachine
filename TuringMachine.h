@@ -117,8 +117,8 @@ namespace Turing
 		Tape tape;
 
 		Mode current_mode = Mode::NONE; //정상 종료 에러대한 상태 변수
-		std::string current_state = ""; //table의 상태 의미?
-		int current_pos = 0; //?
+		std::string current_state = ""; //head의 현재 상태
+		int current_pos = 0; //head가 몇번째 tape element에 있는지를 의미하나?
 
 		std::string accept_state = ""; //정상(긍정) 종료 조건
 		std::string reject_state = ""; //이상(부정) 종료 조건
