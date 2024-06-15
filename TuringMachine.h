@@ -95,6 +95,32 @@ namespace Turing
 
 	class Machine
 	{
-		//기초 함수 정의는 과제 pdf에 제시됨 선행 class 제작 후 구현할 것
+	public:
+		enum class Mode {NONE, NORMAL, ACCEPT, REJECT, ERROR};
+
+		void initTape(const std::string& initial_symbols);
+		void initTable(const std::string& rule_script);
+		bool loadTable(const std::string& path);
+
+		void start(const std::string& start_state, const std::string& accept_state, 
+			const std::string& reject_state);
+		bool step();
+
+		const Table& getTable() const { return table; }
+		const Tape& getTape() const { return tape; }
+		const std::string& getCurrentState() const { return current_state; }
+		int getCurrentPos() const { return current_pos; }
+		Mode getCurrentMode() const { return current_mode; }
+
+	private:
+		Table table;
+		Tape tape;
+
+		Mode current_mode = Mode::NONE; //정상 종료 에러대한 상태인듯
+		std::string current_state = ""; //table의 상태 의미?
+		int current_pos = 0; //?
+
+		std::string accept_state = ""; //정상(긍정) 종료 조건
+		std::string reject_state = ""; //이상(부정) 종료 조건
 	};
 };

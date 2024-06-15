@@ -8,6 +8,6 @@ extern void testMachine();
 int main()
 {
 //	testTable();
-	testTape();
-//	testMachine();
+//	testTape();
+	testMachine();
 }

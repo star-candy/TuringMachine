@@ -82,3 +82,12 @@
 	-------------------------------------------------
 
 	## Machine
+
+	+ [] Tape 초기 입력 구현 initTape
+	+ [] Table 초기 입력 구현 initTable
+	+ [] loadTable 초기 상태 구현 loadTable
+
+	+ [] 머신 초기상태 start 구현, 
+	+ [] accept, reject state는 종료상태이며 accept는 긍정적, reject는 부정적 종료
+	
+	+ [] step에서 write, moving dir에 와일드 카드 존재 가능, 쓰거나 이동하지 않음

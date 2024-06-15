@@ -223,3 +223,27 @@ void Tape::print(std::ostream& os) const {
 	}
 	os << "\n";
 }
+
+void Machine::initTape(const std::string& initial_symbols) {
+	tape.initialize(initial_symbols);
+}
+
+void Machine::initTable(const std::string& rule_script) {
+	table.initialize(rule_script);
+}
+
+bool Machine::loadTable(const std::string& path) {
+	bool validate = table.load(path);
+	return validate;
+}
+
+void Machine::start(const std::string& start_state, const std::string& accept_state,
+	const std::string& reject_state) {
+	this->current_state = start_state;
+	this->accept_state = accept_state;
+	this->reject_state = reject_state;
+}
+
+bool Machine::step() {
+
+}

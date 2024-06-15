@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="test_machine.cpp" />
     <ClCompile Include="test_table.cpp" />
     <ClCompile Include="test_tape.cpp" />
     <ClCompile Include="TuringMachine.cpp" />
