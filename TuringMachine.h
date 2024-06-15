@@ -116,7 +116,7 @@ namespace Turing
 		Table table;
 		Tape tape;
 
-		Mode current_mode = Mode::NONE; //정상 종료 에러대한 상태인듯
+		Mode current_mode = Mode::NONE; //정상 종료 에러대한 상태 변수
 		std::string current_state = ""; //table의 상태 의미?
 		int current_pos = 0; //?
 
