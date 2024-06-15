@@ -178,9 +178,9 @@ void Tape::reserve(int newalloc) {
 	space = newalloc;
 }
 
-void Tape::resize(int newsize) {
+void Tape::resize(int newsize) {//비어있는 상태는 0이 아니라 empty_symbol로 처리해야 함
 	reserve(newsize);
-	for (int i = sz; i < newsize; i++) elem[i] = 0;
+	for (int i = sz; i < newsize; i++) elem[i] = EMPTY_SYMBOL;
 	sz = newsize;
 }
 
@@ -197,9 +197,11 @@ void Tape::push_front(char c) { //elem[0]에 값 추가 / 나머지 shift
 	int newalloc = space;
 	if (sz == 0) newalloc = 8;
 	else if (sz == space) newalloc = space * 2;
+
 	char* p = new char[newalloc];
+
 	for (int i = 0; i < sz; i++) p[i + 1] = elem[i];
-	for (int i = sz; i < newalloc; i++) p[i] = 0;
+	for (int i = sz; i < newalloc - 1; i++) p[i + 1] = EMPTY_SYMBOL;
 	delete[] elem;
 	elem = p;
 	space = newalloc;
@@ -221,7 +223,6 @@ void Tape::print(std::ostream& os) const {
 	for (int i = 0; i < sz; i++) {
 		os << elem[i];
 	}
-	//os << "\n";
 }
 
 void Machine::initTape(const std::string& initial_symbols) {
@@ -245,8 +246,7 @@ void Machine::start(const std::string& start_state, const std::string& accept_st
 }
 
 bool Machine::step() {
-	if (current_mode == Mode::ACCEPT || current_mode == Mode::REJECT || current_mode == Mode::ERROR) return false; //반복 종료
-	current_mode = Mode::NORMAL;
+	current_mode = Mode::NORMAL; //후위에서 문제 발생시 error로 변경후 return 할 것
 	char current_tape_symbol = ' ';
 
 	if (!tape.read(current_pos, current_tape_symbol)) {//tape이 비어있으면 _상태 출력되어야 하는듯
@@ -267,9 +267,23 @@ bool Machine::step() {
 
 	//moveDir 헤드 위치 바꾸기
 	if (transition->getMove() == Move::NONE) {} 
-	else if (transition->getMove() == Move::LEFT)  current_pos--;
-	else if (transition->getMove() == Move::RIGHT) current_pos++;
-	
+	else if (transition->getMove() == Move::LEFT) {
+		if (current_pos == 0) {
+			tape.push_front(EMPTY_SYMBOL); //pos 0 에서 좌측 이동시 emptysymbol이 추가되어야 함
+		}
+		else {
+			current_pos--;
+		}
+	}
+	else if (transition->getMove() == Move::RIGHT) {//우측 이동시 pos가 sz 넘으면 우측에 emptysymbol 추가 필요함
+		if (current_pos == tape.size() - 1) {
+			tape.push_back(EMPTY_SYMBOL);
+			current_pos++;
+		}
+		else {
+			current_pos++;
+		}
+	}
 	//헤드 상태를 변경한다.
 	current_state = transition->getNextState();
 
