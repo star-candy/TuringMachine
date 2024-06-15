@@ -7,7 +7,7 @@ extern void testMachine();
 
 int main()
 {
-	testTable();
-//	testTape();
+//	testTable();
+	testTape();
 //	testMachine();
 }

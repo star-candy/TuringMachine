@@ -76,7 +76,6 @@ Transition* Table::findTransition(const std::string& curr_s, char read_s) {
 	return errorValue; //못 찾으면 공백 반환
 }
 
-
 void Table::stringToTable(const std::string& rule_script) {
 	std::vector<std::string>rules = Util::split(rule_script, '\n'); //n 단위로 분할
 	std::string curr_s, next_s;
@@ -116,4 +115,63 @@ bool Table::load(const std::string& path) {
 	f.close();//파일 처리가 끝나면 닫는다
 
 	return true;
+}
+
+Tape::Tape(const Tape& t) : sz{ t.sz }, space{ sz }, elem{ new char[t.space] } {//cp constructor
+	for (int i = 0; i < sz; i++) {
+		elem[i] = t.elem[i];
+	}
+}
+
+Tape::Tape(Tape&& t) : sz{ t.sz }, space{ t.space }, elem{ t.elem } {//mv constuctor
+	t.sz = 0;
+	t.space = 0;
+	t.elem = nullptr;
+}
+
+Tape& Tape::operator=(const Tape& t) {//cp assignment
+	char* p = new char[t.space];
+	for (int i = 0; i < t.sz; i++) {
+		p[i] = t.elem[i];
+	}
+	delete[] elem;
+	sz = t.sz;
+	space = t.space;
+	elem = p;
+	return *this;
+}
+
+Tape& Tape::operator=(Tape&& t) {//mv assignment
+	delete[] elem;
+	elem = t.elem;
+	sz = t.sz;
+	space = t.space;
+	t.elem = nullptr;
+	t.sz = 0;
+	t.space = 0;
+
+	return *this;
+}
+
+bool Tape::read(int i, char& c)const {
+	if (i >= 0 && i < sz) {
+		c = elem[i];
+		return true;
+	}
+	return false;
+}
+
+bool Tape::write(int i, char c) {
+	if (i >= 0 && i < sz) {
+		elem[i] = c;
+		return true;
+	}
+	return false;
+}
+
+void Tape::reserve(int newalloc) {
+
+}
+void Tape::resize(int newsize) {
+
 }

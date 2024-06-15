@@ -61,7 +61,35 @@ namespace Turing
 
 	class Tape
 	{
-		//기초 함수 정의는 과제 pdf에 제시됨, 선행 class 제작 후 구현할 것
+	public:
+		Tape() : sz{ 0 }, space{ 0 }, elem{nullptr} {}
+		Tape(const Tape& t);
+		Tape(Tape&& t);
+		~Tape() { delete[] elem; };
+
+		Tape& operator=(const Tape& t);
+		Tape& operator=(Tape&& t);
+
+		bool read(int i, char& c) const;
+		bool write(int i, char c);
+		
+		void push_back(char c);
+		void push_front(char c);
+		
+		void reserve(int newalloc);
+		void resize(int newsize);
+
+		int size() const {return sz;}
+		int capacity() const { return space; }
+
+		void initialize(const std::string& s);
+		void clear() { sz = 0; }
+		void print(std::ostream os) const;
+
+	private:
+		int sz;
+		int space;
+		char* elem;
 	};
 
 	class Machine
