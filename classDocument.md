@@ -83,11 +83,17 @@
 
 	## Machine
 
-	+ [] Tape 초기 입력 구현 initTape
-	+ [] Table 초기 입력 구현 initTable
-	+ [] loadTable 초기 상태 구현 loadTable
+	+ [0] Tape 초기 입력 구현 initTape
+	+ [0] Table 초기 입력 구현 initTable
+	+ [0] loadTable 초기 상태 구현 loadTable
 
-	+ [] 머신 초기상태 start 구현, 
-	+ [] accept, reject state는 종료상태이며 accept는 긍정적, reject는 부정적 종료
+	+ [0] 머신 초기상태 start 구현, 
+	+ [0] accept, reject state는 종료상태이며 accept는 긍정적, reject는 부정적 종료
 	
-	+ [] step에서 write, moving dir에 와일드 카드 존재 가능, 쓰거나 이동하지 않음
+	+ [0] step에서 전체 튜링머신 동작 구현
+	+ [0] 현재 tape symbol과 head 상태 통해 table 규칙 찾기
+	+ [0] 규칙에 따라 symbol 작성
+	+ [0] 헤드 위치 변경
+	+ [0] 헤드 상태 변경
+	+ [0] 종료 조건 판단
+	+ [0] step에서 write, moving dir에 와일드 카드 존재 가능, 쓰거나 이동하지 않음

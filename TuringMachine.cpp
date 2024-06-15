@@ -284,9 +284,8 @@ bool Machine::step() {
 			current_pos++;
 		}
 	}
-	//헤드 상태를 변경한다.
+	//헤드 상태를 변경 및 종료 조건 확인
 	current_state = transition->getNextState();
-
 
 	if (current_state == accept_state) {
 		current_mode = Mode::ACCEPT;
