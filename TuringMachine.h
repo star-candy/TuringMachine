@@ -104,7 +104,7 @@ namespace Turing
 
 		void start(const std::string& start_state, const std::string& accept_state, 
 			const std::string& reject_state);
-		bool step();
+		bool step();//halt 상태 전까지 반복적으로 사용될 듯
 
 		const Table& getTable() const { return table; }
 		const Tape& getTape() const { return tape; }

@@ -221,7 +221,7 @@ void Tape::print(std::ostream& os) const {
 	for (int i = 0; i < sz; i++) {
 		os << elem[i];
 	}
-	os << "\n";
+	//os << "\n";
 }
 
 void Machine::initTape(const std::string& initial_symbols) {
@@ -245,5 +245,42 @@ void Machine::start(const std::string& start_state, const std::string& accept_st
 }
 
 bool Machine::step() {
+	if (current_mode == Mode::ACCEPT || current_mode == Mode::REJECT || current_mode == Mode::ERROR) return false; //반복 종료
+	current_mode = Mode::NORMAL;
+	char current_tape_symbol = ' ';
 
+	if (!tape.read(current_pos, current_tape_symbol)) {//tape이 비어있으면 _상태 출력되어야 하는듯
+		current_tape_symbol = EMPTY_SYMBOL;
+	}
+
+	Transition* transition = table.findTransition(current_state, current_tape_symbol); //위치에 해당되는 규칙 찾는다
+	if (transition == nullptr) {//findTransition 실패하면 nullptr 반환함
+		current_mode = Mode::ERROR;
+		return false;
+	}
+
+	//규칙 찾으면 write symbol에 해당하는 값을 작성한다.
+	if (transition->getWriteSymbol() == WILDCARD_SYMBOL) {} //와일드 카드 상태라면 쓰지 않는다.
+	else if (transition->getWriteSymbol() != WILDCARD_SYMBOL) {//와일드 카드 아니면 해당 값 쓴다.
+		tape.write(current_pos, transition->getWriteSymbol());
+	}
+
+	//moveDir 헤드 위치 바꾸기
+	if (transition->getMove() == Move::NONE) {} 
+	else if (transition->getMove() == Move::LEFT)  current_pos--;
+	else if (transition->getMove() == Move::RIGHT) current_pos++;
+	
+	//헤드 상태를 변경한다.
+	current_state = transition->getNextState();
+
+
+	if (current_state == accept_state) {
+		current_mode = Mode::ACCEPT;
+		return false;
+	}
+	else if (current_state == reject_state) {
+		current_mode = Mode::REJECT;
+		return false;
+	}
+	return true;
 }
