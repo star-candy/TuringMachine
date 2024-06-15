@@ -25,7 +25,7 @@ void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해 단순 
 	for (int i = 0; i < transitionTable.size(); i++) { //const 함수에서 참조시에는 const 태그 필요한 듯
 		const Transition& transition = transitionTable[i];
 
-		char moveState = '0';//0출력시 비정상 상태임
+		char moveState = '0';//0출력시 비정상 상태
 		if (transition.getMove() == Move::NONE) moveState = '*';
 		if (transition.getMove() == Move::LEFT) moveState = 'l';
 		if (transition.getMove() == Move::RIGHT) moveState = 'r';
@@ -84,7 +84,7 @@ void Table::stringToTable(const std::string& rule_script) {
 	for (std::string& rule : rules) {
 		rule = Util::stripComment(rule); //; 이후 문장 제거
 		if (Util::isWhiteLine(rule)) continue; //공백 처리
-
+	
 		std::istringstream ss(rule);
 		ss >> curr_s >> read_s >> write_s >> moveChar >> next_s;
 
