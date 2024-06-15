@@ -170,8 +170,56 @@ bool Tape::write(int i, char c) {
 }
 
 void Tape::reserve(int newalloc) {
-
+	if (newalloc <= space) return;
+	char* p = new char[newalloc];
+	for (int i = 0; i < sz; i++) p[i] = elem[i];
+	delete[] elem;
+	elem = p;
+	space = newalloc;
 }
-void Tape::resize(int newsize) {
 
+void Tape::resize(int newsize) {
+	reserve(newsize);
+	for (int i = sz; i < newsize; i++) elem[i] = 0;
+	sz = newsize;
+}
+
+void Tape::push_back(char c) {
+	int oldSize = sz;
+	if (sz == 0) resize(8);
+	else if (sz == space) resize(2 * space);
+	sz = oldSize;
+	elem[sz] = c;
+	++sz;
+}
+
+void Tape::push_front(char c) { //elem[0]에 값 추가 / 나머지 shift
+	int newalloc = space;
+	if (sz == 0) newalloc = 8;
+	else if (sz == space) newalloc = space * 2;
+	char* p = new char[newalloc];
+	for (int i = 0; i < sz; i++) p[i + 1] = elem[i];
+	for (int i = sz; i < newalloc; i++) p[i] = 0;
+	delete[] elem;
+	elem = p;
+	space = newalloc;
+	elem[0] = c;
+	++sz;
+}
+
+void Tape::initialize(const std::string& s) {
+	int newalloc = s.size();
+	char* p = new char[newalloc];
+	for (int i = 0; i < newalloc; i++) p[i] = s[i];
+	delete[] elem;
+	elem = p;
+	sz = newalloc;
+	space = newalloc;
+}
+
+void Tape::print(std::ostream& os) const {
+	for (int i = 0; i < sz; i++) {
+		os << elem[i];
+	}
+	os << "\n";
 }

@@ -70,11 +70,11 @@
 
 	---------------------------------------------------
 	## Tape
-	+ [] vector의 기본 구조처럼 구현 (double이 아닌 char로 구현)
+	+ [0] vector의 기본 구조처럼 구현 (double이 아닌 char로 구현)
 	
-	+ [] vector 구조에서 [0] 위치에 문자 값 추가하는 push_front함수 구현_
-	+ [] 문자열 입력시 해당 크기로 벡터 객체 생성하는 initialize 함수 구현
-	+ [] 모든 element 출력하는 print 함수 구현
+	+ [0] vector 구조에서 [0] 위치에 문자 값 추가하는 push_front함수 구현_
+	+ [0] 문자열 입력시 해당 크기로 벡터 객체 생성하는 initialize 함수 구현
+	+ [0] 모든 element 출력하는 print 함수 구현
 
 
 

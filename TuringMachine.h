@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -62,7 +63,7 @@ namespace Turing
 	class Tape
 	{
 	public:
-		Tape() : sz{ 0 }, space{ 0 }, elem{nullptr} {}
+		Tape() : sz{ 0 }, space{ 0 }, elem{0} {}
 		Tape(const Tape& t);
 		Tape(Tape&& t);
 		~Tape() { delete[] elem; };
@@ -84,7 +85,7 @@ namespace Turing
 
 		void initialize(const std::string& s);
 		void clear() { sz = 0; }
-		void print(std::ostream os) const;
+		void print(std::ostream& os) const;
 
 	private:
 		int sz;
