@@ -22,7 +22,7 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 }
 
 void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해(추가 기능) 단순 for문 사용
-	for (int i = 0; i < transitionTable.size(); i++) { //const 함수에서 참조시에는 const 태그 필요한 듯
+	for (int i = 0; i < transitionTable.size(); i++) { //const 함수에서 참조시에는 const 태그 필요
 		const Transition& transition = transitionTable[i];
 
 		char moveState = '0';//0출력시 비정상 상태
@@ -31,10 +31,10 @@ void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해(추가 
 		if (transition.getMove() == Move::RIGHT) moveState = 'r';
 		
 		os << "[" << i << "]"<< ": "; // 추가 구현 사항
-		os << transition.getCurrState() << ", ";
-		os << transition.getReadSymbol() << ", ";
-		os << transition.getWriteSymbol() << ", ";
-		os << moveState << ", ";
+		os << transition.getCurrState() << " ";
+		os << transition.getReadSymbol() << " ";
+		os << transition.getWriteSymbol() << " ";
+		os << moveState << " ";
 		os << transition.getNextState() << "\n";
 	}
 }
@@ -48,7 +48,6 @@ Transition* Table::findTransition(const std::string& curr_s, char read_s) {
 	//와일드 카드 사용시에도 완전 일치하는 부분 출력 가능 (1, 2 요구사항 만족)
 	for (Transition& transition : transitionTable) {
 		if (transition.getCurrState() == curr_s && transition.getReadSymbol() == read_s) {
-			//transition.print(std::cout);
 			return &transition;
 		}
 	}
@@ -57,7 +56,6 @@ Transition* Table::findTransition(const std::string& curr_s, char read_s) {
 	if (read_s == '*') {
 		for (Transition& transition : transitionTable) {
 			if (transition.getCurrState() == curr_s) {
-				//transition.print(std::cout);
 				return &transition;
 			}
 		}
@@ -66,7 +64,6 @@ Transition* Table::findTransition(const std::string& curr_s, char read_s) {
 	if (read_s != '*') {
 		for (Transition& transition : transitionTable) {
 			if (transition.getCurrState() == curr_s && transition.getReadSymbol() == '*') {
-				//transition.print(std::cout);
 				return &transition;
 			}
 		}
@@ -111,7 +108,7 @@ bool Table::load(const std::string& path) {
 	while (std::getline(f, lineValue)) {
 		stringToTable(lineValue);
 	}
-	f.close();//파일 처리가 끝나면 닫는다
+	f.close();//파일 처리가 끝나면 파일 닫기
 
 	return true;
 }
@@ -245,8 +242,8 @@ void Machine::start(const std::string& start_state, const std::string& accept_st
 }
 
 bool Machine::step() {
-	current_mode = Mode::NORMAL; //후위에서 문제 발생시 error로 변경후 return 할 것
 	char current_tape_symbol = ' ';
+	current_mode = Mode::NORMAL; //후위에서 문제 발생시 error로 변경후 return 할 것
 
 	if (!tape.read(current_pos, current_tape_symbol)) {//tape이 비어있으면 _상태 출력되어야 하는듯
 		current_tape_symbol = EMPTY_SYMBOL;
