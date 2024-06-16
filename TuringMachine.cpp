@@ -21,7 +21,7 @@ void Table::addTransition(const std::string& curr_s, char read_s, char write_s, 
 	transitionTable.push_back(transition);
 }
 
-void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해 단순 for문 사용
+void Table::print(std::ostream& os) const {//몇번째 출력인지 표시하기 위해(추가 기능) 단순 for문 사용
 	for (int i = 0; i < transitionTable.size(); i++) { //const 함수에서 참조시에는 const 태그 필요한 듯
 		const Transition& transition = transitionTable[i];
 
@@ -85,14 +85,13 @@ void Table::stringToTable(const std::string& rule_script) {
 		rule = Util::stripComment(rule); //; 이후 문장 제거
 		if (Util::isWhiteLine(rule)) continue; //공백 처리
 	
-		std::istringstream ss(rule);
-		ss >> curr_s >> read_s >> write_s >> moveChar >> next_s;
+		std::istringstream in(rule);
+		in >> curr_s >> read_s >> write_s >> moveChar >> next_s;
 
 		Move move = Move::NONE;
 		if (moveChar == '*') move = Move::NONE;
 		if (moveChar == 'l') move = Move::LEFT;
 		if (moveChar == 'r') move = Move::RIGHT;
-
 		addTransition(curr_s, read_s, write_s, move, next_s);
 	}
 }
