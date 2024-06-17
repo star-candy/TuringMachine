@@ -95,11 +95,11 @@ void Table::stringToTable(const std::string& rule_script) {
 
 void Table::initialize(const std::string& rule_script) {
 	//transitionTable 초기화, string 통해 규칙 재정의 기능
-	clear();
 	stringToTable(rule_script);
 }
 
 bool Table::load(const std::string& path) {
+	clear();
 	std::ifstream f;
 	f.open(path);
 	if (!f.is_open()) return false;
@@ -222,14 +222,23 @@ void Tape::print(std::ostream& os) const {
 }
 
 void Machine::initTape(const std::string& initial_symbols) {
+	tape.clear();
+	current_mode = Mode::NORMAL;
+	current_pos = 0;
 	tape.initialize(initial_symbols);
 }
 
 void Machine::initTable(const std::string& rule_script) {
+	table.clear();
+	current_mode = Mode::NORMAL;
+	current_pos = 0;
 	table.initialize(rule_script);
 }
 
 bool Machine::loadTable(const std::string& path) {
+	table.clear();
+	current_mode = Mode::NORMAL;
+	current_pos = 0;
 	bool validate = table.load(path);
 	return validate;
 }
@@ -244,10 +253,7 @@ void Machine::start(const std::string& start_state, const std::string& accept_st
 bool Machine::step() {
 	char current_tape_symbol = ' ';
 	current_mode = Mode::NORMAL; //후위에서 문제 발생시 error로 변경후 return 할 것
-
-	if (!tape.read(current_pos, current_tape_symbol)) {//tape이 비어있으면 _상태 출력되어야 하는듯
-		current_tape_symbol = EMPTY_SYMBOL;
-	}
+	tape.read(current_pos, current_tape_symbol);
 
 	Transition* transition = table.findTransition(current_state, current_tape_symbol); //위치에 해당되는 규칙 찾는다
 	if (transition == nullptr) {//findTransition 실패하면 nullptr 반환함
