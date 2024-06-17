@@ -236,7 +236,7 @@ bool Machine::loadTable(const std::string& path) {
 
 void Machine::start(const std::string& start_state, const std::string& accept_state,
 	const std::string& reject_state) {
-	this->current_state = start_state;
+	current_state = start_state;
 	this->accept_state = accept_state;
 	this->reject_state = reject_state;
 }
